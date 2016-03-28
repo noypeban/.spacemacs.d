@@ -44,7 +44,7 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-     ddskk paredit
+     ddskk ace-jump-mode
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages
@@ -283,26 +283,17 @@ you should place you code here."
   ;;helm-swoop
   (define-key isearch-mode-map (kbd "<kanji>") 'helm-swoop-from-isearch)
 
+  ;;ace-jump
+  (use-package ace-jump
+    :bind ("<muhenkan>" . ace-jump-char-mode))
+
   ;;smartparens
   (use-package smartparens
     :defer t
-    :bind (
-           ;;Wrapping an S-expression
-           ;;("M-(" . sp-wrap-with-pair)
-           ;;Slurping and Barfing
-           ("C-)" . sp-forward-slurp-sexp)
-           ("C-}" . sp-forward-barf-sexp)
-           ("C-(" . sp-backward-slurp-sexp)
-           ("C-{" . sp-backward-barf-sexp)
-           ;;splicing
-           ("M-<up>" . sp-splice-sexp-killing-backward)
-           ("M-<down>" . sp-splice-sexp-killing-forward)
-           ("M-s" . sp-splice-sexp)
-           ;;Splitting and Joining
-           ("M-S" . sp-split-sexp)
-           ("M-J" . sp-join-sexp)
-           )
-    :config (smartparens-global-mode t))
+    :config (progn
+              (smartparens-global-mode t)
+              (sp-use-paredit-bindings)
+              ))
 
   ;;org-mode
   (with-eval-after-load 'org
