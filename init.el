@@ -50,6 +50,7 @@ values."
    dotspacemacs-excluded-packages
    '(
      exec-path-from-shell
+     vim
      )
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
@@ -267,6 +268,15 @@ you should place you code here."
   (setq powerline-default-separator nil)
   (spaceline-toggle-hud-off)
 
+  ;;Stop to create lockfile
+  (setq create-lockfiles nil)
+
+  ;;eshell
+  (use-package eshell
+    :config (progn
+              (setq eshell-cmpl-ignore-case t) 
+              ))
+
   ;; auto-save
   (setq auto-save-timeout 1)            ;set auto-saving every 1 sec of idle time.
 
@@ -291,9 +301,9 @@ you should place you code here."
   (use-package smartparens
     :defer t
     :config (progn
+              (use-package smartparens-config)
               (smartparens-global-mode t)
-              (sp-use-paredit-bindings)
-              ))
+              (sp-use-paredit-bindings)))
 
   ;;org-mode
   (with-eval-after-load 'org
@@ -334,7 +344,6 @@ you should place you code here."
     (setq-default org-src-fontify-natively t)
 
     ;; personal setting
-    (load "~/.planner/hato_org_agenda.el")
     (let ((lst '("u" "UnScheduled TODO"
                  ((todo ""
                         ((org-agenda-skip-function
@@ -355,15 +364,10 @@ you should place you code here."
   ;;skk
   (use-package skk-autoloads
     :bind (("C-x j" . skk-mode))
-    :config
-   ;; 変換候補がひとつしかない場合は確定する
-    (setq skk-kakutei-when-unique-candidate t)
-    )
+    :init (progn
+            (setq skk-user-directory "~/.spacemacs.d/SKK")
+            (setq skk-init-file "~/.spacemacs.d/SKK/init.el")))
   )
-
-;; Memo:: To symchronize changes => M-\ feR
-;; Open manual => M-\ h SPC
-;; Toggle UI => M-\ T 
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
